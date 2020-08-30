@@ -7,6 +7,7 @@ import {
   Step,
   StepLabel,
   CircularProgress,
+  Grid,
 } from "@material-ui/core";
 import { Formik, Form, Field, FormikConfig, FormikValues } from "formik";
 import { TextField, CheckboxWithLabel } from "formik-material-ui";
@@ -142,31 +143,42 @@ export function FormikStepper({
         <Form autoComplete="off">
           <Stepper alternativeLabel activeStep={step}>
             {childrenArray.map((child, index) => (
-              <Step key={child.props.label} completed={step > index || completed}>
+              <Step
+                key={child.props.label}
+                completed={step > index || completed}
+              >
                 <StepLabel>{child.props.label}</StepLabel>
               </Step>
             ))}
           </Stepper>
           {currentChild}
-          {step > 0 ? (
-            <Button
-              disabled={isSubmitting}
-              variant="contained"
-              color="primary"
-              onClick={() => setStep((s) => s - 1)}
-            >
-              Back
-            </Button>
-          ) : null}
-          <Button
-            startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
-            disabled={isSubmitting}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            {isSubmitting ? "Submitting" : isLastStep() ? "Submit" : "Next"}
-          </Button>
+          <Grid container spacing={2}>
+            {step > 0 ? (
+              <Grid item>
+                <Button
+                  disabled={isSubmitting}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setStep((s) => s - 1)}
+                >
+                  Back
+                </Button>
+              </Grid>
+            ) : null}
+            <Grid item>
+              <Button
+                startIcon={
+                  isSubmitting ? <CircularProgress size="1rem" /> : null
+                }
+                disabled={isSubmitting}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                {isSubmitting ? "Submitting" : isLastStep() ? "Submit" : "Next"}
+              </Button>
+            </Grid>
+          </Grid>
         </Form>
       )}
     </Formik>
